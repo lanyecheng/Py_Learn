@@ -1,37 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # author：albert time:2020/8/6
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# author：albert time:2020/8/5
 
 import xlrd
 import pymysql
 
 # 打开数据所在的路径表名
-book = xlrd.open_workbook('慧投二号产品止盈情况汇总-导入.xlsx')
+book = xlrd.open_workbook('C:\\Users\\lanye\\Desktop\\慧投一号产品止盈情况汇总-导入.xlsx')
 # 这个是表里的sheet名称（注意大小写）
 sheet = book.sheet_by_name('Sheet1')
 
 # 建立一个 MySQL连接
 conn = pymysql.connect(
-    host='xxxx',
-    user='xxxx',
-    passwd='xxx',
-    db='xxxx',
-    port=10096,
+    host='localhost',
+    user='root',
+    passwd='mao1993oo',
+    db='emictdb',
+    port=3306,
     charset='utf8'
 )
 
-# 获得游标
-cur = conn.cursor()
+# 获得 cursor() 方法创建一个游标对象 cursor
+cursor = conn.cursor()
 # 创建插入sql语句
 
-query = "INSERT INTO tb_tg_strategy_yield_his " \
-        "(invest_consult_id, strategy_id, strategy_name, establish_day, expire_day, " \
-        "expire_type, run_day, end_yield, purchase_people, " \
-        "avg_end_yield, is_display, is_del, display_id, strategy_sub_id) " \
+query = "INSERT INTO tb_tg_strategy_yield_his (" \
+        "invest_consult_id, strategy_id, strategy_name, establish_day, expire_day, expire_type, run_day, end_yield," \
+        "purchase_people, avg_end_yield, is_display, is_del, display_id, strategy_sub_id) " \
         "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+
 
 for r in range(1, sheet.nrows):
     invest_consult_id = 'JS'
@@ -70,9 +67,9 @@ for r in range(1, sheet.nrows):
     values = (invest_consult_id, strategy_id, strategy_name, establish_day, expire_day, expire_type, run_day, end_yield,
               purchase_people, avg_end_yield, is_display, is_del, display_id, strategy_sub_id)
     # 执行sql语句
-    cur.execute(query, values)
+    cursor.execute(query, values)
 
-cur.close()
+cursor.close()
 
 conn.commit()
 conn.close()
