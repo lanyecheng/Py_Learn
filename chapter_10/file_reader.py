@@ -16,3 +16,13 @@ with open(filename) as file_object:
 
 for line in lines:
     print(line.rstrip())
+
+pi_string = ''
+for line in lines:
+    pi_string += line.strip()
+print(pi_string)
+
+new_file = 'programming.txt'
+with open(new_file, 'a') as new_file_object:
+    new_file_object.write('I love programming.\n')
+    new_file_object.write('I love creating new games.\n')
